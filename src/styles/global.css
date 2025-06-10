@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+
+/* Optional: custom font stack if needed across entire app */
+:root {
+  --font-body: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
+}
