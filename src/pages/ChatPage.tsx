@@ -29,27 +29,24 @@ const ChatPage = () => {
   }
 
   return (
-    <div className='min-h-screen p-4'>
-      <h1 className='text-2xl font-bold mb-4'>Chat Page</h1>
-      <p>
-        <strong>Session ID:</strong> {sessionId}
-      </p>
-      <p>
+    <div className='min-h-screen p-4 flex flex-col gap-6'>
+      <h1 className='text-2xl font-bold'>Chat Page</h1>
+      <p className='text-gray-700'>
         <strong>Session Title:</strong> {session?.title}
       </p>
-      <p>
-        <strong>Number of Steps:</strong> {steps.length}
-      </p>
 
-      <div className='mt-6 space-y-4'>
+      <div className='flex flex-col gap-4'>
         {steps.map((step) => (
-          <div key={step.id} className='border p-4 rounded shadow'>
-            <p>
-              <strong>User:</strong> {step.userInput}
-            </p>
-            <p>
-              <strong>AI:</strong> {step.aiResponse}
-            </p>
+          <div key={step.id} className='flex flex-col gap-2'>
+            {/* User bubble */}
+            <div className='self-start max-w-md bg-gray-200 text-gray-800 p-3 rounded-lg'>
+              {step.userInput}
+            </div>
+
+            {/* AI bubble */}
+            <div className='self-end max-w-md bg-blue-600 text-white p-3 rounded-lg'>
+              {step.aiResponse}
+            </div>
           </div>
         ))}
       </div>
