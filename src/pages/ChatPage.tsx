@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import type { IdeaSession, Step } from '../types/ideaSession';
 import ideaSessionData from '../mock/ideaSession.json';
@@ -12,6 +12,8 @@ const ChatPage = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
 
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (!sessionId) return;
 
@@ -20,6 +22,10 @@ const ChatPage = () => {
     setSteps(stepsData as Step[]);
     setIsLoading(false);
   }, [sessionId]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [steps]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,6 +84,8 @@ const ChatPage = () => {
             </div>
           </div>
         ))}
+        {/* Anchor för auto-scroll */}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input + Send form */}
