@@ -9,6 +9,8 @@ const ChatPage = () => {
   const [session, setSession] = useState<IdeaSession | null>(null);
   const [steps, setSteps] = useState<Step[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [newMessage, setNewMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     if (!sessionId) return;
@@ -18,6 +20,33 @@ const ChatPage = () => {
     setSteps(stepsData as Step[]);
     setIsLoading(false);
   }, [sessionId]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newMessage.trim()) return;
+
+    setIsSending(true);
+
+    // TODO: Replace with POST/PUT to backend when ready
+    const payload = {
+      ideaSessionId: session?.id,
+      userInput: newMessage,
+    };
+    console.log('Sending new message:', payload);
+
+    // Mock: append new step with fake AI response
+    setSteps((prev) => [
+      ...prev,
+      {
+        id: `mock-${Date.now()}`,
+        userInput: newMessage,
+        aiResponse: 'This is a mock AI response.',
+      },
+    ]);
+
+    setNewMessage('');
+    setIsSending(false);
+  };
 
   if (isLoading) {
     return (
@@ -50,6 +79,28 @@ const ChatPage = () => {
           </div>
         ))}
       </div>
+
+      {/* Input + Send form */}
+      <form onSubmit={handleSubmit} className='mt-6 flex gap-2'>
+        <input
+          type='text'
+          placeholder='Type your message...'
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          className='flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400'
+        />
+        <button
+          type='submit'
+          disabled={isSending || !newMessage.trim()}
+          className={`bg-blue-600 text-white px-4 py-2 rounded ${
+            isSending || !newMessage.trim()
+              ? 'opacity-50 cursor-not-allowed'
+              : 'hover:bg-blue-700'
+          }`}
+        >
+          {isSending ? 'Sending...' : 'Send'}
+        </button>
+      </form>
     </div>
   );
 };
