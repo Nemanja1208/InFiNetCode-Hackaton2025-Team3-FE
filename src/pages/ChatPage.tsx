@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Heading, Text, Spinner, Input, Button } from '@chakra-ui/react';
 import type { IdeaSession, Step } from '../types/ideaSession';
-import ideaSessionData from '../mock/ideaSession.json';
-import stepsData from '../mock/steps.json';
+import { getSession, sendMessage } from '../services/chatService';
 
 const ChatPage = () => {
   const { sessionId } = useParams();
@@ -12,42 +11,42 @@ const ChatPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [newMessage, setNewMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
-
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!sessionId) return;
-    setSession(ideaSessionData as IdeaSession);
-    setSteps(stepsData as Step[]);
-    setIsLoading(false);
+    const fetchData = async () => {
+      if (!sessionId) return;
+      try {
+        const data = await getSession(sessionId);
+        setSession(data);
+        setSteps(data.steps ?? []);
+      } catch (err) {
+        console.error('Failed to load session:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, [sessionId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [steps]);
+  }, [steps, isSending]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || !session?.id) return;
     setIsSending(true);
 
-    const payload = {
-      ideaSessionId: session?.id,
-      userInput: newMessage,
-    };
-    console.log('Sending new message:', payload);
-
-    setSteps((prev) => [
-      ...prev,
-      {
-        id: `mock-${Date.now()}`,
-        userInput: newMessage,
-        aiResponse: 'This is a mock AI response.',
-      },
-    ]);
-
-    setNewMessage('');
-    setIsSending(false);
+    try {
+      const newStep = await sendMessage(session.id, newMessage);
+      setSteps((prev) => [...prev, newStep]);
+    } catch (err) {
+      console.error('Failed to send message:', err);
+    } finally {
+      setNewMessage('');
+      setIsSending(false);
+    }
   };
 
   if (isLoading) {
@@ -57,7 +56,7 @@ const ChatPage = () => {
           Chat Page
         </Heading>
         <Spinner size='lg' />
-        <Text mt={4}>Loading mock data...</Text>
+        <Text mt={4}>Loading session...</Text>
       </Box>
     );
   }
@@ -73,7 +72,6 @@ const ChatPage = () => {
         <Box className='flex flex-col gap-4'>
           {steps.map((step) => (
             <Box key={step.id} className='flex flex-col gap-2'>
-              {/* User bubble */}
               <Box
                 bg='gray.200'
                 color='gray.800'
@@ -83,7 +81,6 @@ const ChatPage = () => {
               >
                 {step.userInput}
               </Box>
-              {/* AI bubble */}
               <Box
                 bg='gray.300'
                 color='gray.800'
@@ -95,6 +92,19 @@ const ChatPage = () => {
               </Box>
             </Box>
           ))}
+
+          {isSending && (
+            <Box
+              bg='gray.100'
+              color='gray.500'
+              p={3}
+              rounded='lg'
+              className='max-w-md self-end italic'
+            >
+              AI is thinking...
+            </Box>
+          )}
+
           <div ref={messagesEndRef} />
         </Box>
 
@@ -110,12 +120,8 @@ const ChatPage = () => {
             type='submit'
             disabled={!newMessage.trim() || isSending}
             className='px-4 text-white'
-            style={{
-              background: 'var(--color-primary)',
-            }}
-            _hover={{
-              background: 'var(--color-hover)',
-            }}
+            style={{ background: 'var(--color-primary)' }}
+            _hover={{ background: 'var(--color-hover)' }}
             loading={isSending}
           >
             {isSending ? 'Sending...' : 'Send'}
