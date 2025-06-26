@@ -7,9 +7,35 @@
   --color-highlight: #d4e4bc;
   --color-icon: #966eb3;
   --color-success: #568259;
+  --color-placeholder: #a0aec0;
+  --color-border: #a1a1aa;
+  --color-text: #27272a;
 }
 
 body {
   background: var(--color-background);
   font-family: sans-serif;
+}
+
+select:invalid {
+  color: var(--color-placeholder);
+}
+
+select {
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  height: 40px;
+  width: 100%;
+  font-size: 14px;
+  line-height: 20px;
+  appearance: none;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--color-border);
+  box-shadow: 0 0 0 1px var(--color-primary);
 }

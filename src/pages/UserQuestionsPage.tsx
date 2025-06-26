@@ -125,7 +125,6 @@ const UserQuestionsPage = () => {
               How much experience do you have?
             </label>
             <ChakraSelect
-              defaultValue=''
               value={experienceLevel}
               onChange={(e) => setExperienceLevel(e.target.value)}
               required
@@ -161,7 +160,7 @@ const UserQuestionsPage = () => {
           <Button
             type='submit'
             disabled={!isFormValid() || isSubmitting}
-            className='text-white'
+            className='text-white mt-6'
             style={{ background: 'var(--color-primary)' }}
             _hover={{ background: 'var(--color-hover)' }}
             width='full'
