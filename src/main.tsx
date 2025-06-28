@@ -1,16 +1,19 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from './components/ui/provider.tsx';
+import { Provider } from '@/components/ui/provider';
+
+/* import { Provider } from './components/ui/provider.tsx'; */
+
 import App from './App.tsx';
 import './styles/global.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Provider>
         <App />
-      </BrowserRouter>
-    </Provider>
+      </Provider>
+    </BrowserRouter>
   </StrictMode>
 );
