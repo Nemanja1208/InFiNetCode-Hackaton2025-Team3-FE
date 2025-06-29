@@ -1,0 +1,12 @@
+[
+  {
+    "id": "step1",
+    "userInput": "I want to build an AI planning tool.",
+    "aiResponse": "Great! Let's start by defining your target audience."
+  },
+  {
+    "id": "step2",
+    "userInput": "Startups and solo founders.",
+    "aiResponse": "Perfect. Now let's outline the key features."
+  }
+]

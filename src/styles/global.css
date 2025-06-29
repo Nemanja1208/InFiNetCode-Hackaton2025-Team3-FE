@@ -1,7 +1,15 @@
 @import 'tailwindcss';
 
-/* Optional: custom font stack if needed across entire app */
 :root {
-  --font-body: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-family: var(--font-body);
+  --color-primary: #36558f;
+  --color-hover: #40376e;
+  --color-background: #f8f4e3;
+  --color-highlight: #d4e4bc;
+  --color-icon: #966eb3;
+  --color-success: #568259;
+}
+
+body {
+  background: var(--color-background);
+  font-family: sans-serif;
 }
