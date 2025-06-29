@@ -6,7 +6,7 @@ export const getSession = async (
   sessionId: string
 ): Promise<IdeaSession & { steps: Step[] }> => {
   try {
-    const res = await fetch(`${API_BASE_URL}/ideasession/${sessionId}`, {
+    const res = await fetch(`${API_BASE_URL}/ideasessions/${sessionId}`, {
       credentials: 'include',
     });
     if (!res.ok) throw new Error('Failed to fetch session');
