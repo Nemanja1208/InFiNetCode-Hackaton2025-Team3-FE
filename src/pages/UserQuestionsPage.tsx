@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Box, Heading, Input, Textarea, Button } from '@chakra-ui/react';
-import { Select as ChakraSelect } from '@chakra-ui/select';
 
 const UserQuestionsPage = () => {
   const [ideaTitle, setIdeaTitle] = useState('');
@@ -52,107 +51,137 @@ const UserQuestionsPage = () => {
 
   return (
     <Box className='min-h-screen py-12 px-4 flex justify-center'>
-      <Box className='w-full max-w-2xl p-8 rounded' bg='#f8f4e3'>
-        <Heading as='h1' size='lg' mb={6} textAlign='center' color='gray.800'>
-          Tell us about your idea
+      <Box
+        className='w-full max-w-2xl p-8 rounded'
+        bg='var(--color-background)'
+      >
+        <Heading
+          as='h1'
+          size='lg'
+          mb={2}
+          textAlign='center'
+          color='var(--color-text)'
+          fontWeight='bold'
+        >
+          Tell us about your idea:
         </Heading>
+        <Box
+          as='p'
+          mb={8}
+          textAlign='center'
+          color='var(--color-text)'
+          fontSize='md'
+        >
+          Share a few key details to help us shape your MVP plan
+        </Box>
 
-        <form onSubmit={handleSubmit} className='space-y-5'>
+        <form onSubmit={handleSubmit} className='space-y-6'>
           <Box>
-            <label className='block font-medium mb-1 text-gray-800'>
+            <label
+              className='block font-semibold mb-1'
+              style={{ color: 'var(--color-text)' }}
+            >
               What is your idea?
             </label>
             <Input
               value={ideaTitle}
               onChange={(e) => setIdeaTitle(e.target.value)}
-              borderColor='gray.400'
+              borderColor='var(--color-border)'
               _focus={{ borderColor: 'var(--color-primary)' }}
-              color='gray.800'
-              placeholder='Enter your idea...'
+              color='var(--color-text)'
+              placeholder='Enter your idea here'
               variant='outline'
             />
           </Box>
 
           <Box>
-            <label className='block font-medium mb-1 text-gray-800'>
-              What is the purpose of your application?
+            <label
+              className='block font-semibold mb-1'
+              style={{ color: 'var(--color-text)' }}
+            >
+              What problem does it solve?
             </label>
             <Textarea
               value={ideaPurpose}
               onChange={(e) => setIdeaPurpose(e.target.value)}
               resize='none'
-              borderColor='gray.400'
+              borderColor='var(--color-border)'
               _focus={{ borderColor: 'var(--color-primary)' }}
-              color='gray.800'
-              placeholder='Describe the purpose...'
+              color='var(--color-text)'
+              placeholder='Describe the problem your idea addresses here'
               variant='outline'
             />
           </Box>
 
           <Box>
-            <label className='block font-medium mb-1 text-gray-800'>
-              What do you want to achieve with this project?
+            <label
+              className='block font-semibold mb-1'
+              style={{ color: 'var(--color-text)' }}
+            >
+              What is your goal with this MVP?
             </label>
             <Textarea
               value={ideaGoal}
               onChange={(e) => setIdeaGoal(e.target.value)}
               resize='none'
-              borderColor='gray.400'
+              borderColor='var(--color-border)'
               _focus={{ borderColor: 'var(--color-primary)' }}
-              color='gray.800'
-              placeholder='Describe your goal...'
+              color='var(--color-text)'
+              placeholder='Example: Validate demand, build a prototype, learn from users'
               variant='outline'
             />
           </Box>
 
           <Box>
-            <label className='block font-medium mb-1 text-gray-800'>
+            <label
+              className='block font-semibold mb-1'
+              style={{ color: 'var(--color-text)' }}
+            >
               Who is your target audience?
             </label>
             <Input
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
-              borderColor='gray.400'
+              borderColor='var(--color-border)'
               _focus={{ borderColor: 'var(--color-primary)' }}
-              color='gray.800'
-              placeholder='Describe your audience...'
+              color='var(--color-text)'
+              placeholder='Example: Parents, freelancers, students'
               variant='outline'
             />
           </Box>
 
           <Box>
-            <label className='block font-medium mb-1 text-gray-800'>
-              How much experience do you have?
-            </label>
-            <ChakraSelect
-              value={experienceLevel}
-              onChange={(e) => setExperienceLevel(e.target.value)}
-              required
-              bg='#f8f4e3'
-              color='gray.800'
-              borderColor='gray.400'
-              focusBorderColor='var(--color-primary)'
+            <label
+              className='block font-semibold mb-1'
+              style={{ color: 'var(--color-text)' }}
             >
-              <option value='' disabled hidden>
-                Select experience level
-              </option>
-              <option value='Beginner'>Beginner</option>
-              <option value='Intermediate'>Intermediate</option>
-              <option value='Advanced'>Advanced</option>
-            </ChakraSelect>
-          </Box>
-
-          <Box>
-            <label className='block font-medium mb-1 text-gray-800'>
               How much time do you want to spend on this project?
             </label>
             <Input
               value={timeEstimate}
               onChange={(e) => setTimeEstimate(e.target.value)}
-              borderColor='gray.400'
+              borderColor='var(--color-border)'
               _focus={{ borderColor: 'var(--color-primary)' }}
-              color='gray.800'
-              placeholder='Ex. 2 weeks'
+              color='var(--color-text)'
+              placeholder='Example: 2 weeks, 5/h week'
+              variant='outline'
+            />
+          </Box>
+
+          <Box>
+            <label
+              className='block font-semibold mb-1'
+              style={{ color: 'var(--color-text)' }}
+            >
+              List the top 3 features you want in your product:
+            </label>
+            <Input
+              value={experienceLevel}
+              onChange={(e) => setExperienceLevel(e.target.value)}
+              borderColor='var(--color-border)'
+              _focus={{ borderColor: 'var(--color-primary)' }}
+              color='var(--color-text)'
+              placeholder='Example: Booking calendar, notifications, real-time chat'
               variant='outline'
             />
           </Box>
@@ -160,12 +189,12 @@ const UserQuestionsPage = () => {
           <Button
             type='submit'
             disabled={!isFormValid() || isSubmitting}
-            className='text-white mt-6'
+            className='text-white mt-6 font-semibold'
             style={{ background: 'var(--color-primary)' }}
-            _hover={{ background: 'var(--color-hover)' }}
+            _hover={{ background: 'var(--color-primary-hover)' }}
             width='full'
           >
-            {isSubmitting ? 'Submitting...' : 'Submit & Preview Payload'}
+            {isSubmitting ? 'Submitting...' : 'Generate MVP Plan'}
           </Button>
         </form>
       </Box>
