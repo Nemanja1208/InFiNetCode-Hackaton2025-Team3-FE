@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Box, Heading, Input, Textarea, Button } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { postUserIdeaSession } from '../services/ideaService';
 
 const UserQuestionsPage = () => {
   const [ideaTitle, setIdeaTitle] = useState('');
@@ -9,6 +11,7 @@ const UserQuestionsPage = () => {
   const [experienceLevel, setExperienceLevel] = useState('');
   const [timeEstimate, setTimeEstimate] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const isFormValid = () =>
     ideaTitle.trim() &&
@@ -44,9 +47,15 @@ const UserQuestionsPage = () => {
 
     console.log('Payload to be sent:', payload);
 
-    // TODO: Replace with POST request
-    // TODO: Redirect on success
-    setIsSubmitting(false);
+    try {
+      const created = await postUserIdeaSession(ideaTitle);
+      navigate(`/chat/${created.id}`);
+    } catch (err) {
+      console.error('Submit failed:', err);
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
