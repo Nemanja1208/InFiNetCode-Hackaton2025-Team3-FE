@@ -15,3 +15,13 @@ export interface Step {
   createdAt: string;
   // TODO: Add updatedAt if needed later
 }
+
+export interface IdeaSessionPayload {
+  title: string;
+  purpose: string;
+  goal: string;
+  targetAudience: string;
+  experienceLevel?: string;
+  timeEstimate: string;
+  keyFeatures?: string;
+}
