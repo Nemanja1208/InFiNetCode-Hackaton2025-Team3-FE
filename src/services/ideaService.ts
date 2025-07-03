@@ -1,4 +1,4 @@
-import type { IdeaSession } from '../types/ideaSession';
+import type { IdeaSession, IdeaSessionPayload } from '../types/ideaSession';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -7,7 +7,7 @@ export const fetchIdeas = async (): Promise<IdeaSession[]> => {
 };
 
 export const postUserIdeaSession = async (
-  title: string
+  payload: IdeaSessionPayload
 ): Promise<IdeaSession> => {
   try {
     const res = await fetch(`${API_BASE_URL}/ideasessions/CreateIdeaSession`, {
@@ -16,7 +16,7 @@ export const postUserIdeaSession = async (
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify({ title }),
+      body: JSON.stringify(payload),
     });
 
     if (!res.ok) {
@@ -29,10 +29,10 @@ export const postUserIdeaSession = async (
     const data = await res.json();
 
     return {
-      id: data.id || data.ideaId, // depends on backend naming
+      id: data.id || data.ideaId,
       title: data.title,
       createdAt: data.createdAt,
-      steps: data.steps ?? [], // empty if none yet
+      steps: data.steps ?? [],
     };
   } catch (err) {
     console.error('Error in postUserIdeaSession:', err);

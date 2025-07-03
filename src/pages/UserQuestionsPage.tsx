@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box, Heading, Input, Textarea, Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { postUserIdeaSession } from '../services/ideaService';
+import type { IdeaSessionPayload } from '../types/ideaSession';
 
 const UserQuestionsPage = () => {
   const [ideaTitle, setIdeaTitle] = useState('');
@@ -10,6 +11,7 @@ const UserQuestionsPage = () => {
   const [targetAudience, setTargetAudience] = useState('');
   const [experienceLevel, setExperienceLevel] = useState('');
   const [timeEstimate, setTimeEstimate] = useState('');
+  const [keyFeatures, setKeyFeatures] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
@@ -19,7 +21,8 @@ const UserQuestionsPage = () => {
     ideaGoal.trim() &&
     targetAudience.trim() &&
     experienceLevel.trim() &&
-    timeEstimate.trim();
+    timeEstimate.trim() &&
+    keyFeatures.trim();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,25 +33,18 @@ const UserQuestionsPage = () => {
 
     setIsSubmitting(true);
 
-    const payload = {
-      Ideas: {
-        Title: ideaTitle,
-        Audience: targetAudience,
-        Purpose: ideaPurpose,
-      },
-      Mvp_Plans: {
-        Goal: ideaGoal,
-        TimeEstimate: timeEstimate,
-      },
-      User: {
-        Level: experienceLevel,
-      },
+    const payload: IdeaSessionPayload = {
+      title: ideaTitle,
+      purpose: ideaPurpose,
+      goal: ideaGoal,
+      targetAudience: targetAudience,
+      experienceLevel: experienceLevel,
+      timeEstimate: timeEstimate,
+      keyFeatures: keyFeatures,
     };
 
-    console.log('Payload to be sent:', payload);
-
     try {
-      const created = await postUserIdeaSession(ideaTitle);
+      const created = await postUserIdeaSession(payload);
       navigate(`/chat/${created.id}`);
     } catch (err) {
       console.error('Submit failed:', err);
@@ -164,6 +160,24 @@ const UserQuestionsPage = () => {
               className='block font-semibold mb-1'
               style={{ color: 'var(--color-text)' }}
             >
+              What is your experience level?
+            </label>
+            <Input
+              value={experienceLevel}
+              onChange={(e) => setExperienceLevel(e.target.value)}
+              borderColor='var(--color-border)'
+              _focus={{ borderColor: 'var(--color-primary)' }}
+              color='var(--color-text)'
+              placeholder='Example: Beginner, intermediate, expert'
+              variant='outline'
+            />
+          </Box>
+
+          <Box>
+            <label
+              className='block font-semibold mb-1'
+              style={{ color: 'var(--color-text)' }}
+            >
               How much time do you want to spend on this project?
             </label>
             <Input
@@ -185,8 +199,8 @@ const UserQuestionsPage = () => {
               List the top 3 features you want in your product:
             </label>
             <Input
-              value={experienceLevel}
-              onChange={(e) => setExperienceLevel(e.target.value)}
+              value={keyFeatures}
+              onChange={(e) => setKeyFeatures(e.target.value)}
               borderColor='var(--color-border)'
               _focus={{ borderColor: 'var(--color-primary)' }}
               color='var(--color-text)'
