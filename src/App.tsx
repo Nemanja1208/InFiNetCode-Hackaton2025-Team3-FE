@@ -1,9 +1,9 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
-import HomePage from './pages/HomePage';
 import ChatPage from './pages/ChatPage';
 import UserQuestionsPage from './pages/UserQuestionsPage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
+import LandingPage from './pages/LandingPage';
 import Layout from './components/Layout';
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
     <>
          {!hideNavbar && <Layout>
         <Routes>
-          <Route path='/' element={<HomePage />} />
+          <Route path='/' element={<LandingPage />} />
           <Route path='/dashboard' element={<DashboardPage />} />
           <Route path='/chat/:sessionId' element={<ChatPage />} />
           <Route path='/user-questions' element={<UserQuestionsPage />} />
@@ -23,7 +23,7 @@ const App = () => {
       </Layout>}
        {hideNavbar && (
         <Routes>
-          <Route path='/' element={<HomePage />} />
+          <Route path='/' element={<LandingPage />} />
           <Route path='/login' element={<LoginPage />} />
         </Routes>
       )}
