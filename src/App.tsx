@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ChatPage from './pages/ChatPage';
 import UserQuestionsPage from './pages/UserQuestionsPage';
@@ -7,10 +7,12 @@ import DashboardPage from './pages/DashboardPage';
 import Layout from './components/Layout';
 
 const App = () => {
+  const location = useLocation();
+  const hideNavbar = location.pathname === '/' || location.pathname === '/login';
 
   return (
     <>
-      <Layout>
+         {!hideNavbar && <Layout>
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/dashboard' element={<DashboardPage />} />
@@ -18,7 +20,13 @@ const App = () => {
           <Route path='/user-questions' element={<UserQuestionsPage />} />
           <Route path='/login' element={<LoginPage />} />
         </Routes>
-      </Layout>
+      </Layout>}
+       {hideNavbar && (
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/login' element={<LoginPage />} />
+        </Routes>
+      )}
     </>
   );
 };
