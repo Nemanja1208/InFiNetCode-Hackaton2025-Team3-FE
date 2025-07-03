@@ -9,7 +9,8 @@ import {
   Stack,
   Text
 } from "@chakra-ui/react";
-import { FaGoogle, FaGithub } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginPage = () => {
   return (
@@ -42,7 +43,7 @@ const LoginPage = () => {
               my="20px"
               onClick={() => window.location.assign(loginGoogleUrl)}
             >
-                <FaGoogle style={{ marginRight: "8px" }} />
+                <FcGoogle style={{ marginRight: "8px" }} />
               Log in with Google
             </Button>
 
