@@ -1,35 +1,11 @@
-import { useEffect, useState } from "react";
-import { apiService } from "@/services/apiService";
-
-type UserInfo = {
-  email: string;
-  name: string;
-};
+import {Heading, Flex} from '@chakra-ui/react';
 
 const DashboardPage = () => {
-  const [user, setUser] = useState<UserInfo | null>(null);
-
-  useEffect(() => {
-    apiService.get<UserInfo>("/auth/me")
-      .then(setUser)
-      .catch((err) => {
-        console.error("Error fetching user:", err);
-        setUser(null);
-      });
-  }, []);
-
+  
   return (
-    <div>
-      <h1>Dashboard</h1>
-      {user ? (
-        <div>
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Name:</strong> {user.name}</p>
-        </div>
-      ) : (
-        <p>Loading or login failed.</p>
-      )}
-    </div>
+    <Flex maxW="xxl" mt={10} justifyContent={'center'} display="flex">
+      <Heading size="2xl">My ideas</Heading>
+    </Flex>
   );
 }
 

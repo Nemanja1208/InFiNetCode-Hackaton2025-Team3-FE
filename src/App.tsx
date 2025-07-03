@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import LandingPage from './pages/LandingPage';
 import Layout from './components/Layout';
+import UserInfoPage from './pages/UserInfoPage';
 
 const App = () => {
   const location = useLocation();
@@ -16,9 +17,9 @@ const App = () => {
         <Routes>
           <Route path='/' element={<LandingPage />} />
           <Route path='/dashboard' element={<DashboardPage />} />
+          <Route path='/userinfo' element={<UserInfoPage />} />
           <Route path='/chat/:sessionId' element={<ChatPage />} />
           <Route path='/user-questions' element={<UserQuestionsPage />} />
-          <Route path='/login' element={<LoginPage />} />
         </Routes>
       </Layout>}
        {hideNavbar && (
